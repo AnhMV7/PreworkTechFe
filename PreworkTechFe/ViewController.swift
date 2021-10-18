@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var billAmountTextField: UITextField!
@@ -16,6 +17,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var splitAmount: UILabel!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var tipAmountLabel: UILabel!
+    
+    
+    @IBOutlet weak var buttonClicked: UIButton!
+    
+    
+    @IBOutlet weak var stateSwitch: UISwitch!
     
     @IBOutlet weak var splitTipTextField: UITextField!
     
@@ -30,10 +37,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var amountAdjuster: UISlider!
     
     
+    @IBOutlet weak var textLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        stateSwitch.addTarget(self, action: #selector(stateChanged), for: .valueChanged)
     }
     
     
@@ -42,8 +52,34 @@ class ViewController: UIViewController {
         label.text = "\(sender)"
         
         
+        
  
     }
+    
+    
+    @IBAction func buttonClicked(_ sender: Any) {
+        if stateSwitch.isOn {
+            textLabel.text = "Light Mode"
+            stateSwitch.setOn(false, animated: true)
+            self.view.backgroundColor = UIColor.white
+        } else {
+            textLabel.text = "Dark Mode"
+            self.view.backgroundColor = UIColor.darkGray
+            stateSwitch.setOn(true, animated: true)
+            
+        }
+    }
+    
+    @objc func stateChanged(switchState: UISwitch) {
+        if switchState.isOn {
+            textLabel.text = "Light Mode"
+            self.view.backgroundColor = UIColor.white
+        } else {
+            textLabel.text = "Dark Mode"
+            self.view.backgroundColor = UIColor.darkGray
+        }
+    }
+    
     @IBAction func calculateTip(_ sender: Any) {
         let bill = Double(billAmountTextField.text!) ?? 0
         let amountAdjuster = Double(label.text!) ?? 0
